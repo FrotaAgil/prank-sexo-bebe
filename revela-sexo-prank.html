@@ -1,0 +1,532 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Descobrir o sexo do bebê 🎉</title>
+<meta name="theme-color" content="#ff69b4">
+<style>
+  :root{
+    --bg:#ffeef8;
+    --card:#ffffff;
+    --muted:#8b5a8c;
+    --text:#4a4a4a;
+    --pink:#ff69b4;
+    --blue:#87ceeb;
+    --green:#98fb98;
+    --yellow:#ffd700;
+    --purple:#dda0dd;
+    --orange:#ffa500;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%;margin:0;overflow:hidden}
+  body{
+    font-family: "Comic Sans MS", cursive, system-ui, -apple-system, "Segoe UI", Roboto;
+    background: 
+      radial-gradient(circle at 20% 20%, var(--pink) 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, var(--blue) 0%, transparent 50%),
+      radial-gradient(circle at 40% 70%, var(--yellow) 0%, transparent 50%),
+      radial-gradient(circle at 80% 80%, var(--purple) 0%, transparent 50%),
+      radial-gradient(circle at 10% 80%, var(--green) 0%, transparent 50%),
+      linear-gradient(135deg, #ffeef8 0%, #e6f3ff 25%, #fff0e6 50%, #f0e6ff 75%, #e6ffe6 100%);
+    color:var(--text);
+    display:flex;align-items:center;justify-content:center;
+    padding:10px;
+    -webkit-user-select:none; user-select:none;
+    -webkit-touch-callout: none;
+    -webkit-tap-highlight-color: transparent;
+    position:fixed;inset:0;
+    animation: backgroundShift 10s ease-in-out infinite;
+  }
+  
+  @keyframes backgroundShift {
+    0%, 100% { filter: hue-rotate(0deg) brightness(1); }
+    25% { filter: hue-rotate(15deg) brightness(1.1); }
+    50% { filter: hue-rotate(30deg) brightness(1.05); }
+    75% { filter: hue-rotate(15deg) brightness(1.1); }
+  }
+  
+  /* Elementos decorativos flutuantes */
+  body::before {
+    content: '🌈 ⭐ 🎈 🦄 🌸 🎀 🧸 👶 💕 🎉 🎊 🌟 🎁 🍼 🌺 🦋';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    font-size: 24px;
+    opacity: 0.1;
+    pointer-events: none;
+    z-index: 1;
+    animation: floatElements 20s linear infinite;
+    white-space: pre;
+    line-height: 3;
+    letter-spacing: 2em;
+  }
+  
+  @keyframes floatElements {
+    0% { transform: translateY(100vh) rotate(0deg); }
+    100% { transform: translateY(-100vh) rotate(360deg); }
+  }
+  
+  .arena{
+    position:relative; 
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    touch-action: none;
+    z-index: 2;
+  }
+  
+  h1{
+    margin: 0 0 40px 0;
+    font-size: clamp(24px, 6vw, 36px);
+    line-height: 1.2;
+    color: var(--pink);
+    text-shadow: 2px 2px 4px rgba(255,105,180,.3);
+    text-align: center;
+    font-weight: bold;
+  }
+  
+  .cta{
+    position: relative;
+    display: inline-block; 
+    padding: clamp(16px, 4vw, 20px) clamp(24px, 6vw, 32px); 
+    font-weight: 800; 
+    font-size: clamp(18px, 5vw, 24px);
+    color: #fff; 
+    border: 0; 
+    border-radius: 20px;
+    background: linear-gradient(45deg, var(--pink), var(--blue), var(--purple));
+    background-size: 200% 200%;
+    box-shadow: 0 10px 30px rgba(255,105,180,.4), 0 6px 20px rgba(135,206,235,.3);
+    cursor: pointer; 
+    touch-action: none; 
+    -webkit-tap-highlight-color: transparent;
+    transition: all .2s ease;
+    min-width: 200px;
+    white-space: nowrap;
+    animation: gradientShift 3s ease-in-out infinite;
+    font-family: "Comic Sans MS", cursive;
+    text-shadow: 1px 1px 2px rgba(0,0,0,.2);
+    text-align: center;
+  }
+  
+  @keyframes gradientShift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+  
+  .cta:hover{
+    transform: scale(1.05);
+  }
+  
+  .cta:active{ 
+    transform: scale(.95);
+  }
+  
+  /* Animações quando o botão começa a se mover */
+  .cta.moving{
+    position: absolute !important;
+    animation: shake 0.5s ease-in-out, gradientShift 3s ease-in-out infinite;
+  }
+  
+  .cta.rainbow{
+    background: linear-gradient(90deg,var(--pink),var(--blue),var(--green),var(--yellow),var(--purple),var(--orange),var(--pink));
+    background-size: 400% 100%;
+    animation: rainbow 1.5s linear infinite, bounce 0.5s ease-in-out;
+  }
+  
+  @keyframes shake {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(-8deg); }
+    75% { transform: rotate(8deg); }
+  }
+  
+  @keyframes rainbow {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 100% 50%; }
+  }
+  
+  @keyframes bounce {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.15); }
+  }
+  
+  .emoji-rain{
+    position: absolute;
+    font-size: 28px;
+    pointer-events: none;
+    animation: fall 3s linear forwards;
+    z-index: 10;
+  }
+  
+  @keyframes fall {
+    0% { transform: translateY(-50px) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(400px) rotate(360deg); opacity: 0; }
+  }
+  
+  .fake-reveal{
+    position: fixed;
+    inset: 0;
+    background: rgba(255,255,255,0.95);
+    backdrop-filter: blur(5px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    z-index: 20;
+  }
+  
+  .fake-reveal.show{
+    display: flex;
+    animation: fadeIn 0.5s ease;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.8); }
+    to { opacity: 1; transform: scale(1); }
+  }
+  
+  .fake-reveal h2{
+    font-size: clamp(28px, 8vw, 40px);
+    margin: 0 0 20px;
+    color: var(--pink);
+    font-family: "Comic Sans MS", cursive;
+    text-shadow: 2px 2px 4px rgba(255,105,180,.3);
+    text-align: center;
+  }
+  
+  .fake-reveal .close-btn{
+    padding: 15px 30px;
+    background: linear-gradient(45deg, var(--pink), var(--purple));
+    color: white;
+    border: none;
+    border-radius: 15px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 20px;
+    font-family: "Comic Sans MS", cursive;
+    box-shadow: 0 4px 15px rgba(255,105,180,.3);
+    transition: transform 0.2s ease;
+  }
+  
+  .fake-reveal .close-btn:hover{
+    transform: scale(1.05);
+  }
+  
+  /* Melhorias para mobile */
+  @media (max-width: 480px) {
+    body { padding: 5px; }
+    .cta { 
+      min-width: 180px;
+      padding: 18px 28px;
+    }
+  }
+  
+  /* Landscape mobile */
+  @media (max-height: 500px) and (orientation: landscape) {
+    h1 { margin-bottom: 20px; }
+  }
+</style>
+</head>
+<body>
+  <div id="arena" class="arena">
+    <button id="cta" class="cta" type="button">👶 Descobrir agora! 🎁</button>
+    
+    <div id="fake-reveal" class="fake-reveal">
+      <h2 id="reveal-text">🎉 É uma menina! 👶💕</h2>
+      <p>Parabéns! Que alegria!</p>
+      <button class="close-btn" onclick="closeFakeReveal()">Fechar</button>
+    </div>
+  </div>
+
+<script>
+(function(){
+  const arena = document.getElementById('arena');
+  const btn = document.getElementById('cta');
+  const fakeReveal = document.getElementById('fake-reveal');
+  const revealText = document.getElementById('reveal-text');
+  
+  let isMoving = false;
+  let attempts = 0;
+
+  // Mensagens engraçadas quando o botão se move
+  const funnyMessages = [
+    "Quase! 😂", "Ops! 🙈", "Escapei! 🏃‍♂️", "Não hoje! 😎", 
+    "Fui! 💨", "Tchau! 👋", "Perdeu! 😝", "Tenta de novo! 😋"
+  ];
+
+  const emojiRain = ['🎉', '🎊', '👶', '💕', '💙', '💖', '🍼', '🧸', '👑', '⭐', '🌈', '🦄', '🎈', '🌸', '🎀'];
+  
+  const fakeReveals = [
+    { text: "🎉 É uma menina! 👶💕", subtitle: "Parabéns! Que alegria!" },
+    { text: "🎊 É um menino! 👶💙", subtitle: "Que felicidade!" },
+    { text: "😱 São gêmeos! 👶👶", subtitle: "Dupla surpresa!" },
+    { text: "🦄 É um unicórnio! 🌈", subtitle: "Isso é raro!" },
+    { text: "🤖 É um robô! 🔧", subtitle: "Do futuro!" },
+    { text: "🐶 É um cachorrinho! 🐕", subtitle: "Au au!" },
+    { text: "🌈 É um arco-íris! ✨", subtitle: "Que mágico!" },
+    { text: "🧸 É um ursinho! 🐻", subtitle: "Que fofo!" }
+  ];
+
+  // Impede context menu / seleção / zoom
+  window.addEventListener('contextmenu', e => e.preventDefault());
+  let lastTouchEnd = 0;
+  window.addEventListener('touchend', function(e){
+    const now = Date.now();
+    if(now - lastTouchEnd <= 300){ e.preventDefault(); }
+    lastTouchEnd = now;
+  }, {passive:false});
+
+  // Vibração se disponível
+  function vibrate(pattern = [50]) {
+    if (navigator.vibrate) {
+      navigator.vibrate(pattern);
+    }
+  }
+
+  // Chuva de emojis
+  function createEmojiRain() {
+    for(let i = 0; i < 12; i++) {
+      setTimeout(() => {
+        const emoji = document.createElement('div');
+        emoji.className = 'emoji-rain';
+        emoji.textContent = emojiRain[Math.floor(Math.random() * emojiRain.length)];
+        emoji.style.left = Math.random() * 100 + '%';
+        emoji.style.animationDelay = Math.random() * 0.5 + 's';
+        arena.appendChild(emoji);
+        
+        setTimeout(() => emoji.remove(), 3000);
+      }, i * 80);
+    }
+  }
+
+  // Revelação falsa ocasional
+  function showFakeReveal() {
+    const reveal = fakeReveals[Math.floor(Math.random() * fakeReveals.length)];
+    revealText.textContent = reveal.text;
+    fakeReveal.querySelector('p').textContent = reveal.subtitle;
+    fakeReveal.classList.add('show');
+    
+    vibrate([100, 50, 100, 50, 100]);
+    createEmojiRain();
+    
+    // Fecha automaticamente após 4 segundos
+    setTimeout(() => {
+      if (fakeReveal.classList.contains('show')) {
+        closeFakeReveal();
+      }
+    }, 4000);
+  }
+
+  window.closeFakeReveal = function() {
+    fakeReveal.classList.remove('show');
+  }
+
+  // Função para iniciar o movimento do botão
+  function startMoving() {
+    if (isMoving) return;
+    
+    isMoving = true;
+    btn.classList.add('moving');
+    
+    // Posiciona o botão na posição atual antes de começar a se mover
+    const rect = btn.getBoundingClientRect();
+    const arenaRect = arena.getBoundingClientRect();
+    btn.style.left = (rect.left - arenaRect.left + rect.width/2) + 'px';
+    btn.style.top = (rect.top - arenaRect.top + rect.height/2) + 'px';
+    btn.style.transform = 'translate(-50%, -50%)';
+  }
+
+  // Calcula posição segura para o botão se mover
+  function randomPosition(avoidRect){
+    const pad = 20;
+    const a = arena.getBoundingClientRect();
+    const bw = btn.offsetWidth;
+    const bh = btn.offsetHeight;
+    const minX = pad + bw/2;
+    const maxX = a.width - pad - bw/2;
+    const minY = pad + bh/2;
+    const maxY = a.height - pad - bh/2;
+
+    function gen(){
+      const x = Math.random() * (maxX - minX) + minX;
+      const y = Math.random() * (maxY - minY) + minY;
+      return {x,y};
+    }
+    
+    let tries = 0;
+    while(tries < 50){
+      const p = gen();
+      if(!avoidRect){
+        return p;
+      }
+      const dx = Math.max(avoidRect.left - p.x, 0, p.x - avoidRect.right);
+      const dy = Math.max(avoidRect.top - p.y, 0, p.y - avoidRect.bottom);
+      const dist = Math.sqrt(dx*dx + dy*dy);
+      if(dist > 110){
+        return p;
+      }
+      tries++;
+    }
+    return gen();
+  }
+
+  function placeAt(x,y){
+    btn.style.left = x+'px';
+    btn.style.top = y+'px';
+    btn.style.transform = 'translate(-50%,-50%) rotate(' + (Math.random()*10-5) + 'deg)';
+  }
+
+  function evade(near){
+    if (!isMoving) return;
+    
+    // Vibração de feedback
+    vibrate([40]);
+    
+    // Animações aleatórias
+    btn.classList.remove('shake', 'rainbow');
+    const animations = ['shake', 'rainbow'];
+    if (Math.random() > 0.6) {
+      btn.classList.add(animations[Math.floor(Math.random() * animations.length)]);
+      setTimeout(() => btn.classList.remove('shake', 'rainbow'), 800);
+    }
+    
+    // Mensagem engraçada
+    const msg = funnyMessages[Math.floor(Math.random() * funnyMessages.length)];
+    const originalText = btn.textContent;
+    btn.textContent = msg;
+    
+    setTimeout(() => {
+      btn.textContent = originalText;
+    }, 1000);
+    
+    const p = randomPosition(near);
+    placeAt(p.x, p.y);
+    
+    // Revelação falsa ocasional (10% de chance após 5 tentativas)
+    if (attempts > 5 && Math.random() < 0.1) {
+      setTimeout(showFakeReveal, 600);
+    }
+  }
+
+  // Eventos do mouse - inicia movimento quando mouse se aproxima
+  arena.addEventListener('mousemove', (e)=>{
+    const r = arena.getBoundingClientRect();
+    const near = {left:e.clientX - r.left, top:e.clientY - r.top, right:e.clientX - r.left, bottom:e.clientY - r.top};
+    const b = btn.getBoundingClientRect();
+    const dx = e.clientX - (b.left + b.width/2);
+    const dy = e.clientY - (b.top + b.height/2);
+    const d = Math.hypot(dx,dy);
+    
+    // Se não está se movendo e o mouse se aproxima, inicia o movimento
+    if (!isMoving && d < 150) {
+      startMoving();
+      attempts++;
+    }
+    
+    // Se já está se movendo e o mouse está próximo, foge
+    if (isMoving && d < 130) {
+      evade(near);
+    }
+  });
+
+  // Eventos de touch - inicia movimento quando toque se aproxima
+  let lastMove = 0;
+  arena.addEventListener('touchmove', (e)=>{
+    if (!e.touches || e.touches.length===0) return;
+    
+    const t = e.touches[0];
+    const r = arena.getBoundingClientRect();
+    const near = {left:t.clientX - r.left, top:t.clientY - r.top, right:t.clientX - r.left, bottom:t.clientY - r.top};
+    const b = btn.getBoundingClientRect();
+    const dx = t.clientX - (b.left + b.width/2);
+    const dy = t.clientY - (b.top + b.height/2);
+    const d = Math.hypot(dx,dy);
+    
+    // Se não está se movendo e o toque se aproxima, inicia o movimento
+    if (!isMoving && d < 150) {
+      startMoving();
+      attempts++;
+    }
+    
+    // Se já está se movendo, foge
+    const now = Date.now();
+    if(isMoving && now - lastMove > 20){
+      evade(near);
+      lastMove = now;
+    }
+    e.preventDefault();
+  }, {passive:false});
+
+  // Evento de hover no botão - inicia movimento imediatamente
+  btn.addEventListener('mouseenter', (e) => {
+    if (!isMoving) {
+      startMoving();
+      attempts++;
+      
+      // Foge imediatamente quando o mouse entra no botão
+      const r = arena.getBoundingClientRect();
+      const b = btn.getBoundingClientRect();
+      const centerX = b.left + b.width/2 - r.left;
+      const centerY = b.top + b.height/2 - r.top;
+      evade({left: centerX, top: centerY, right: centerX, bottom: centerY});
+    }
+  });
+
+  // Evento de clique/touch no botão - agora só foge se já estiver se movendo
+  function handleButtonClick(e) {
+    if (!isMoving) {
+      startMoving();
+      attempts++;
+    }
+    
+    // Se já está se movendo, faz o botão fugir
+    if (isMoving) {
+      const t = e.touches && e.touches[0];
+      if (t) {
+        const r = arena.getBoundingClientRect();
+        evade({left:t.clientX - r.left, top:t.clientY - r.top, right:t.clientX - r.left, bottom:t.clientY - r.top});
+      } else if (e.clientX) {
+        const r = arena.getBoundingClientRect();
+        evade({left:e.clientX - r.left, top:e.clientY - r.top, right:e.clientX - r.left, bottom:e.clientY - r.top});
+      } else {
+        evade();
+      }
+    }
+    
+    e.preventDefault();
+  }
+
+  // Adiciona eventos ao botão
+  btn.addEventListener('touchstart', handleButtonClick, {passive:false});
+  btn.addEventListener('click', handleButtonClick);
+
+  // Redimensionamento
+  window.addEventListener('resize', ()=>{
+    if (isMoving) {
+      setTimeout(() => {
+        const p = randomPosition();
+        placeAt(p.x, p.y);
+      }, 100);
+    }
+  });
+
+  // Orientação
+  window.addEventListener('orientationchange', ()=>{
+    if (isMoving) {
+      setTimeout(() => {
+        const p = randomPosition();
+        placeAt(p.x, p.y);
+      }, 300);
+    }
+  });
+})();
+</script>
+</body>
+</html>
