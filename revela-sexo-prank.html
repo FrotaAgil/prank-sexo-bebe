@@ -2,9 +2,12 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <title>Descobrir o sexo do bebê 🎉</title>
 <meta name="theme-color" content="#ff69b4">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="mobile-web-app-capable" content="yes">
 <style>
   :root{
     --bg:#ffeef8;
@@ -73,46 +76,62 @@
     position:relative; 
     width: 100%;
     height: 100vh;
+    height: 100dvh; /* Dynamic viewport height para mobile */
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
     touch-action: none;
     z-index: 2;
-  }
-  
-  h1{
-    margin: 0 0 40px 0;
-    font-size: clamp(24px, 6vw, 36px);
-    line-height: 1.2;
-    color: var(--pink);
-    text-shadow: 2px 2px 4px rgba(255,105,180,.3);
-    text-align: center;
-    font-weight: bold;
+    /* Otimizações para touchscreen */
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
   }
   
   .cta{
     position: relative;
     display: inline-block; 
-    padding: clamp(16px, 4vw, 20px) clamp(24px, 6vw, 32px); 
+    padding: clamp(20px, 5vw, 24px) clamp(32px, 8vw, 40px); 
     font-weight: 800; 
-    font-size: clamp(18px, 5vw, 24px);
+    font-size: clamp(20px, 6vw, 28px);
     color: #fff; 
     border: 0; 
-    border-radius: 20px;
+    border-radius: 25px;
     background: linear-gradient(45deg, var(--pink), var(--blue), var(--purple));
     background-size: 200% 200%;
-    box-shadow: 0 10px 30px rgba(255,105,180,.4), 0 6px 20px rgba(135,206,235,.3);
+    box-shadow: 0 12px 35px rgba(255,105,180,.5), 0 8px 25px rgba(135,206,235,.4);
     cursor: pointer; 
-    touch-action: none; 
+    touch-action: manipulation; /* Otimizado para touch */
     -webkit-tap-highlight-color: transparent;
-    transition: all .2s ease;
-    min-width: 200px;
+    transition: all .15s ease;
+    min-width: clamp(220px, 50vw, 280px);
+    min-height: 60px; /* Área de toque maior */
     white-space: nowrap;
     animation: gradientShift 3s ease-in-out infinite;
     font-family: "Comic Sans MS", cursive;
-    text-shadow: 1px 1px 2px rgba(0,0,0,.2);
+    text-shadow: 2px 2px 4px rgba(0,0,0,.3);
     text-align: center;
+    /* Melhor performance em mobile */
+    will-change: transform;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    /* Área de toque expandida */
+    position: relative;
+  }
+  
+  /* Pseudo-elemento para expandir área de toque */
+  .cta::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    z-index: -1;
   }
   
   @keyframes gradientShift {
@@ -219,18 +238,66 @@
     transform: scale(1.05);
   }
   
-  /* Melhorias para mobile */
+  /* Melhorias para mobile touchscreen */
   @media (max-width: 480px) {
-    body { padding: 5px; }
+    body { 
+      padding: 8px;
+      /* Previne bounce no iOS */
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior: none;
+    }
+    
     .cta { 
-      min-width: 180px;
-      padding: 18px 28px;
+      min-width: clamp(200px, 60vw, 260px);
+      min-height: 70px; /* Área de toque ainda maior no mobile */
+      padding: clamp(22px, 6vw, 26px) clamp(36px, 10vw, 44px);
+      font-size: clamp(22px, 7vw, 30px);
+      border-radius: 30px;
+      box-shadow: 0 15px 40px rgba(255,105,180,.6), 0 10px 30px rgba(135,206,235,.5);
+    }
+    
+    /* Área de toque expandida ainda mais no mobile */
+    .cta::before {
+      top: -15px;
+      left: -15px;
+      right: -15px;
+      bottom: -15px;
+    }
+    
+    .fake-reveal {
+      margin: 15px;
+      padding: 30px 20px;
+    }
+    
+    .fake-reveal h2 {
+      font-size: clamp(32px, 10vw, 44px);
+    }
+    
+    .fake-reveal .close-btn {
+      padding: 18px 36px;
+      font-size: 20px;
+      min-height: 56px; /* Área de toque adequada */
     }
   }
   
-  /* Landscape mobile */
+  /* Landscape mobile - otimizado para touchscreen */
   @media (max-height: 500px) and (orientation: landscape) {
-    h1 { margin-bottom: 20px; }
+    .arena {
+      height: 100vh;
+      height: 100dvh;
+    }
+    
+    .cta {
+      min-height: 55px;
+      padding: clamp(18px, 4vw, 22px) clamp(30px, 7vw, 38px);
+    }
+  }
+  
+  /* Dispositivos com notch (iPhone X+) */
+  @media (max-width: 480px) {
+    body {
+      padding: max(8px, env(safe-area-inset-top)) max(8px, env(safe-area-inset-right)) max(8px, env(safe-area-inset-bottom)) max(8px, env(safe-area-inset-left));
+    }
   }
 </style>
 </head>
@@ -503,8 +570,74 @@
     e.preventDefault();
   }
 
-  // Adiciona eventos ao botão
-  btn.addEventListener('touchstart', handleButtonClick, {passive:false});
+  // Eventos de touch otimizados para mobile
+  let touchStartTime = 0;
+  let touchMoveCount = 0;
+  
+  btn.addEventListener('touchstart', function(e) {
+    e.preventDefault();
+    touchStartTime = Date.now();
+    touchMoveCount = 0;
+    
+    const touch = e.touches[0];
+    const rect = btn.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+    const distance = Math.sqrt(
+      Math.pow(touch.clientX - centerX, 2) + 
+      Math.pow(touch.clientY - centerY, 2)
+    );
+    
+    // Inicia movimento se o toque estiver próximo (150px)
+    if (distance <= 150) {
+      if (!isMoving) {
+        startMoving();
+        attempts++;
+        vibrate([30]);
+      }
+      
+      // Se já está se movendo, evade imediatamente
+      if (isMoving && distance <= 130) {
+        evade();
+      }
+    }
+  }, {passive: false});
+
+  btn.addEventListener('touchmove', function(e) {
+    e.preventDefault();
+    touchMoveCount++;
+    
+    if (isMoving) {
+      // Evade a cada movimento se estiver próximo
+      const touch = e.touches[0];
+      const rect = btn.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+      const distance = Math.sqrt(
+        Math.pow(touch.clientX - centerX, 2) + 
+        Math.pow(touch.clientY - centerY, 2)
+      );
+      
+      if (distance <= 130) {
+        // Evade com throttle para performance
+        if (touchMoveCount % 3 === 0) {
+          evade();
+        }
+      }
+    }
+  }, {passive: false});
+
+  btn.addEventListener('touchend', function(e) {
+    e.preventDefault();
+    const touchDuration = Date.now() - touchStartTime;
+    
+    // Se foi um toque rápido (tap) e não houve muito movimento
+    if (touchDuration < 200 && touchMoveCount < 5) {
+      handleButtonClick();
+    }
+  }, {passive: false});
+
+  // Adiciona evento de click para desktop
   btn.addEventListener('click', handleButtonClick);
 
   // Redimensionamento
