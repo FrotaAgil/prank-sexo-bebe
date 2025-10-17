@@ -111,8 +111,11 @@
     -webkit-tap-highlight-color: transparent;
     transition: all .15s ease;
     min-width: clamp(280px, 60vw, 320px);
+    max-width: 90vw; /* Limita largura máxima para não sair da tela */
     min-height: 80px; /* Área de toque ainda maior */
     white-space: nowrap;
+    overflow: hidden; /* Garante que o texto não saia do botão */
+    text-overflow: ellipsis; /* Adiciona ... se o texto for muito longo */
     animation: gradientShift 3s ease-in-out infinite;
     font-family: "Comic Sans MS", cursive;
     text-shadow: 2px 2px 4px rgba(0,0,0,.3);
@@ -384,8 +387,28 @@
   
   let isMoving = false;
   let attempts = 0;
+  let currentPhraseIndex = 0;
 
   const emojiRain = ['🎉', '🎊', '👶', '💕', '💙', '💖', '🍼', '🧸', '👑', '⭐', '🌈', '🦄', '🎈', '🌸', '🎀'];
+  
+  // Frases completas e variadas para o botão
+  const buttonPhrases = [
+    "Descobrir agora",
+    "Revelar o sexo do bebê",
+    "Clique para descobrir",
+    "Ver o resultado",
+    "Descobrir o mistério",
+    "Revelar a surpresa",
+    "Saber o sexo agora",
+    "Mostrar o resultado",
+    "Descobrir já",
+    "Ver a revelação",
+    "Clique aqui para saber",
+    "Revelar o segredo",
+    "Descobrir o bebê",
+    "Ver a surpresa",
+    "Saber agora mesmo"
+  ];
   
   const fakeReveals = [
     { text: "🎉 É uma menina! 👶💕", subtitle: "Parabéns! Que alegria!" },
@@ -397,6 +420,12 @@
     { text: "🌈 É um arco-íris! ✨", subtitle: "Que mágico!" },
     { text: "🧸 É um ursinho! 🐻", subtitle: "Que fofo!" }
   ];
+
+  // Função para trocar o texto do botão
+  function changeButtonText() {
+    currentPhraseIndex = (currentPhraseIndex + 1) % buttonPhrases.length;
+    btn.textContent = buttonPhrases[currentPhraseIndex];
+  }
 
   // Impede context menu / seleção / zoom
   window.addEventListener('contextmenu', e => e.preventDefault());
@@ -469,18 +498,21 @@
 
   // Calcula posição segura para o botão se mover
   function randomPosition(avoidRect){
-    const pad = 20;
+    // Padding maior para garantir que textos longos não sejam cortados
+    const pad = window.innerWidth < 768 ? 40 : 30; // Padding maior em mobile
     const a = arena.getBoundingClientRect();
     const bw = btn.offsetWidth;
     const bh = btn.offsetHeight;
+    
+    // Garante que o botão fique completamente dentro da tela
     const minX = pad + bw/2;
     const maxX = a.width - pad - bw/2;
     const minY = pad + bh/2;
     const maxY = a.height - pad - bh/2;
 
     function gen(){
-      const x = Math.random() * (maxX - minX) + minX;
-      const y = Math.random() * (maxY - minY) + minY;
+      const x = Math.max(minX, Math.min(maxX, Math.random() * (maxX - minX) + minX));
+      const y = Math.max(minY, Math.min(maxY, Math.random() * (maxY - minY) + minY));
       return {x,y};
     }
     
@@ -509,6 +541,9 @@
 
   function evade(near){
     if (!isMoving) return;
+    
+    // Troca o texto do botão a cada fuga
+    changeButtonText();
     
     // Vibração de feedback mais intensa para mobile
     const vibrationPattern = window.innerWidth < 768 ? [50, 30, 50] : [40];
