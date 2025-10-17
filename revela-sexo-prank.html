@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <title>Descobrir o sexo do bebê 🎉</title>
-<meta name="theme-color" content="#ff69b4">
+<meta name="theme-color" content="#ffffff">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="mobile-web-app-capable" content="yes">
@@ -110,12 +110,12 @@
     touch-action: manipulation; /* Otimizado para touch */
     -webkit-tap-highlight-color: transparent;
     transition: all .15s ease;
-    min-width: clamp(280px, 60vw, 320px);
-    max-width: 90vw; /* Limita largura máxima para não sair da tela */
+    min-width: clamp(200px, 50vw, 280px);
+    max-width: 85vw; /* Limita largura máxima para não sair da tela */
     min-height: 80px; /* Área de toque ainda maior */
-    white-space: nowrap;
-    overflow: hidden; /* Garante que o texto não saia do botão */
-    text-overflow: ellipsis; /* Adiciona ... se o texto for muito longo */
+    white-space: normal; /* Permite quebra de linha */
+    word-wrap: break-word; /* Quebra palavras longas se necessário */
+    line-height: 1.2; /* Espaçamento entre linhas */
     animation: gradientShift 3s ease-in-out infinite;
     font-family: "Comic Sans MS", cursive;
     text-shadow: 2px 2px 4px rgba(0,0,0,.3);
@@ -314,13 +314,14 @@
     }
     
     .cta { 
-      min-width: clamp(200px, 60vw, 260px);
-      min-height: 70px; /* Área de toque ainda maior no mobile */
-      padding: clamp(22px, 6vw, 26px) clamp(36px, 10vw, 44px);
-      font-size: clamp(22px, 7vw, 30px);
-      border-radius: 30px;
-      box-shadow: 0 15px 40px rgba(255,105,180,.6), 0 10px 30px rgba(135,206,235,.5);
-    }
+       min-width: clamp(180px, 50vw, 240px);
+       max-width: 80vw; /* Largura ainda mais restrita no mobile */
+       min-height: 70px; /* Área de toque ainda maior no mobile */
+       padding: clamp(20px, 5vw, 24px) clamp(30px, 8vw, 36px);
+       font-size: clamp(20px, 6vw, 26px);
+       border-radius: 30px;
+       box-shadow: 0 15px 40px rgba(255,105,180,.6), 0 10px 30px rgba(135,206,235,.5);
+     }
     
     /* Área de toque expandida ainda mais no mobile */
     .cta::before {
@@ -498,13 +499,13 @@
 
   // Calcula posição segura para o botão se mover
   function randomPosition(avoidRect){
-    // Padding maior para garantir que textos longos não sejam cortados
-    const pad = window.innerWidth < 768 ? 40 : 30; // Padding maior em mobile
+    // Padding muito maior para garantir que textos longos não sejam cortados
+    const pad = window.innerWidth < 768 ? 60 : 50; // Padding ainda maior em mobile
     const a = arena.getBoundingClientRect();
     const bw = btn.offsetWidth;
     const bh = btn.offsetHeight;
     
-    // Garante que o botão fique completamente dentro da tela
+    // Garante que o botão fique completamente dentro da tela com margem extra
     const minX = pad + bw/2;
     const maxX = a.width - pad - bw/2;
     const minY = pad + bh/2;
