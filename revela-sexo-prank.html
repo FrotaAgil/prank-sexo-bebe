@@ -10,28 +10,30 @@
 <meta name="mobile-web-app-capable" content="yes">
 <style>
   :root{
-    --bg:#ffeef8;
+    --bg:#f0f8ff;
     --card:#ffffff;
-    --muted:#8b5a8c;
-    --text:#4a4a4a;
-    --pink:#ff69b4;
-    --blue:#87ceeb;
-    --green:#98fb98;
-    --yellow:#ffd700;
-    --purple:#dda0dd;
-    --orange:#ffa500;
+    --muted:#6b7280;
+    --text:#374151;
+    --primary:#3b82f6;
+    --secondary:#8b5cf6;
+    --accent:#10b981;
+    --warm:#f59e0b;
+    --coral:#ff6b6b;
+    --teal:#14b8a6;
+    --indigo:#6366f1;
+    --emerald:#059669;
   }
   *{box-sizing:border-box}
   html,body{height:100%;margin:0;overflow:hidden}
   body{
     font-family: "Comic Sans MS", cursive, system-ui, -apple-system, "Segoe UI", Roboto;
     background: 
-      radial-gradient(circle at 20% 20%, var(--pink) 0%, transparent 50%),
-      radial-gradient(circle at 80% 20%, var(--blue) 0%, transparent 50%),
-      radial-gradient(circle at 40% 70%, var(--yellow) 0%, transparent 50%),
-      radial-gradient(circle at 80% 80%, var(--purple) 0%, transparent 50%),
-      radial-gradient(circle at 10% 80%, var(--green) 0%, transparent 50%),
-      linear-gradient(135deg, #ffeef8 0%, #e6f3ff 25%, #fff0e6 50%, #f0e6ff 75%, #e6ffe6 100%);
+      radial-gradient(circle at 20% 20%, var(--primary) 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, var(--secondary) 0%, transparent 50%),
+      radial-gradient(circle at 40% 70%, var(--warm) 0%, transparent 50%),
+      radial-gradient(circle at 80% 80%, var(--indigo) 0%, transparent 50%),
+      radial-gradient(circle at 10% 80%, var(--accent) 0%, transparent 50%),
+      linear-gradient(135deg, #f8fafc 0%, #e0f2fe 25%, #fef3e2 50%, #f3e8ff 75%, #ecfdf5 100%);
     color:var(--text);
     display:flex;align-items:center;justify-content:center;
     padding:10px;
@@ -95,21 +97,21 @@
   .cta{
     position: relative;
     display: inline-block; 
-    padding: clamp(20px, 5vw, 24px) clamp(32px, 8vw, 40px); 
+    padding: clamp(24px, 6vw, 32px) clamp(40px, 10vw, 48px); 
     font-weight: 800; 
-    font-size: clamp(20px, 6vw, 28px);
+    font-size: clamp(22px, 7vw, 32px);
     color: #fff; 
     border: 0; 
-    border-radius: 25px;
-    background: linear-gradient(45deg, var(--pink), var(--blue), var(--purple));
+    border-radius: 30px;
+    background: linear-gradient(45deg, var(--primary), var(--secondary), var(--indigo));
     background-size: 200% 200%;
-    box-shadow: 0 12px 35px rgba(255,105,180,.5), 0 8px 25px rgba(135,206,235,.4);
+    box-shadow: 0 16px 40px rgba(59,130,246,.6), 0 12px 30px rgba(139,92,246,.5);
     cursor: pointer; 
     touch-action: manipulation; /* Otimizado para touch */
     -webkit-tap-highlight-color: transparent;
     transition: all .15s ease;
-    min-width: clamp(220px, 50vw, 280px);
-    min-height: 60px; /* Área de toque maior */
+    min-width: clamp(280px, 60vw, 320px);
+    min-height: 80px; /* Área de toque ainda maior */
     white-space: nowrap;
     animation: gradientShift 3s ease-in-out infinite;
     font-family: "Comic Sans MS", cursive;
@@ -119,19 +121,34 @@
     will-change: transform;
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
-    /* Área de toque expandida */
+    /* Área de toque expandida ainda mais */
     position: relative;
   }
   
-  /* Pseudo-elemento para expandir área de toque */
+  /* Pseudo-elemento para expandir área de toque significativamente */
   .cta::before {
     content: '';
     position: absolute;
-    top: -10px;
-    left: -10px;
-    right: -10px;
-    bottom: -10px;
+    top: -20px;
+    left: -20px;
+    right: -20px;
+    bottom: -20px;
     z-index: -1;
+    border-radius: 50px;
+  }
+  
+  /* Área de detecção de proximidade visual (invisível) */
+  .cta::after {
+    content: '';
+    position: absolute;
+    top: -40px;
+    left: -40px;
+    right: -40px;
+    bottom: -40px;
+    z-index: -2;
+    border-radius: 70px;
+    /* Debug: descomente para ver a área de detecção */
+    /* border: 2px dashed rgba(255,0,0,0.3); */
   }
   
   @keyframes gradientShift {
@@ -151,18 +168,64 @@
   .cta.moving{
     position: absolute !important;
     animation: shake 0.5s ease-in-out, gradientShift 3s ease-in-out infinite;
+    /* Feedback visual melhorado para mobile */
+    transform-origin: center;
+    transition: transform 0.1s ease-out;
   }
   
   .cta.rainbow{
-    background: linear-gradient(90deg,var(--pink),var(--blue),var(--green),var(--yellow),var(--purple),var(--orange),var(--pink));
+    background: linear-gradient(90deg,var(--primary),var(--secondary),var(--accent),var(--warm),var(--indigo),var(--coral),var(--primary));
     background-size: 400% 100%;
-    animation: rainbow 1.5s linear infinite, bounce 0.5s ease-in-out;
+    animation: rainbow 1.5s linear infinite, bounce 0.5s ease-in-out, pulse 0.3s ease-in-out;
+  }
+  
+  /* Nova animação de pulse para feedback tátil */
+  @keyframes pulse {
+    0% { transform: scale(1); box-shadow: 0 16px 40px rgba(59,130,246,.6), 0 12px 30px rgba(139,92,246,.5); }
+    50% { transform: scale(1.08); box-shadow: 0 20px 50px rgba(59,130,246,.8), 0 16px 40px rgba(139,92,246,.7); }
+    100% { transform: scale(1); box-shadow: 0 16px 40px rgba(59,130,246,.6), 0 12px 30px rgba(139,92,246,.5); }
   }
   
   @keyframes shake {
-    0%, 100% { transform: rotate(0deg); }
-    25% { transform: rotate(-8deg); }
-    75% { transform: rotate(8deg); }
+    0%, 100% { transform: rotate(0deg) scale(1); }
+    25% { transform: rotate(-8deg) scale(1.05); }
+    50% { transform: rotate(0deg) scale(1.1); }
+    75% { transform: rotate(8deg) scale(1.05); }
+  }
+  
+  @keyframes rainbow {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 100% 50%; }
+  }
+  
+  @keyframes bounce {
+    0%, 100% { transform: scale(1); }
+    25% { transform: scale(1.15) rotate(-3deg); }
+    50% { transform: scale(1.2) rotate(0deg); }
+    75% { transform: scale(1.15) rotate(3deg); }
+  }
+  
+  /* Feedback visual para proximidade em mobile */
+  .cta.proximity-detected {
+    animation: proximityPulse 0.6s ease-in-out infinite;
+    box-shadow: 0 20px 50px rgba(59,130,246,.8), 0 16px 40px rgba(139,92,246,.7), 0 0 30px rgba(255,255,255,.5);
+  }
+  
+  @keyframes proximityPulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.03); opacity: 0.95; }
+  }
+  
+  /* Animação de escape mais dramática */
+  .cta.escaping {
+    animation: escape 0.4s ease-out;
+  }
+  
+  @keyframes escape {
+    0% { transform: scale(1) rotate(0deg); }
+    30% { transform: scale(0.9) rotate(-15deg); }
+    60% { transform: scale(1.1) rotate(10deg); }
+    100% { transform: scale(1) rotate(0deg); }
   }
   
   @keyframes rainbow {
@@ -213,15 +276,15 @@
   .fake-reveal h2{
     font-size: clamp(28px, 8vw, 40px);
     margin: 0 0 20px;
-    color: var(--pink);
+    color: var(--primary);
     font-family: "Comic Sans MS", cursive;
-    text-shadow: 2px 2px 4px rgba(255,105,180,.3);
+    text-shadow: 2px 2px 4px rgba(59,130,246,.3);
     text-align: center;
   }
   
   .fake-reveal .close-btn{
     padding: 15px 30px;
-    background: linear-gradient(45deg, var(--pink), var(--purple));
+    background: linear-gradient(45deg, var(--primary), var(--secondary));
     color: white;
     border: none;
     border-radius: 15px;
@@ -230,7 +293,7 @@
     cursor: pointer;
     margin-top: 20px;
     font-family: "Comic Sans MS", cursive;
-    box-shadow: 0 4px 15px rgba(255,105,180,.3);
+    box-shadow: 0 4px 15px rgba(59,130,246,.3);
     transition: transform 0.2s ease;
   }
   
@@ -303,7 +366,7 @@
 </head>
 <body>
   <div id="arena" class="arena">
-    <button id="cta" class="cta" type="button">👶 Descobrir agora! 🎁</button>
+    <button id="cta" class="cta" type="button">Descobrir agora</button>
     
     <div id="fake-reveal" class="fake-reveal">
       <h2 id="reveal-text">🎉 É uma menina! 👶💕</h2>
@@ -321,12 +384,6 @@
   
   let isMoving = false;
   let attempts = 0;
-
-  // Mensagens engraçadas quando o botão se move
-  const funnyMessages = [
-    "Quase! 😂", "Ops! 🙈", "Escapei! 🏃‍♂️", "Não hoje! 😎", 
-    "Fui! 💨", "Tchau! 👋", "Perdeu! 😝", "Tenta de novo! 😋"
-  ];
 
   const emojiRain = ['🎉', '🎊', '👶', '💕', '💙', '💖', '🍼', '🧸', '👑', '⭐', '🌈', '🦄', '🎈', '🌸', '🎀'];
   
@@ -453,25 +510,21 @@
   function evade(near){
     if (!isMoving) return;
     
-    // Vibração de feedback
-    vibrate([40]);
+    // Vibração de feedback mais intensa para mobile
+    const vibrationPattern = window.innerWidth < 768 ? [50, 30, 50] : [40];
+    vibrate(vibrationPattern);
+    
+    // Adiciona classe de escape para animação visual
+    btn.classList.add('escaping');
+    setTimeout(() => btn.classList.remove('escaping'), 400);
     
     // Animações aleatórias
-    btn.classList.remove('shake', 'rainbow');
+    btn.classList.remove('shake', 'rainbow', 'proximity-detected');
     const animations = ['shake', 'rainbow'];
     if (Math.random() > 0.6) {
       btn.classList.add(animations[Math.floor(Math.random() * animations.length)]);
       setTimeout(() => btn.classList.remove('shake', 'rainbow'), 800);
     }
-    
-    // Mensagem engraçada
-    const msg = funnyMessages[Math.floor(Math.random() * funnyMessages.length)];
-    const originalText = btn.textContent;
-    btn.textContent = msg;
-    
-    setTimeout(() => {
-      btn.textContent = originalText;
-    }, 1000);
     
     const p = randomPosition(near);
     placeAt(p.x, p.y);
@@ -479,6 +532,21 @@
     // Revelação falsa ocasional (10% de chance após 5 tentativas)
     if (attempts > 5 && Math.random() < 0.1) {
       setTimeout(showFakeReveal, 600);
+    }
+  }
+
+  // Função para detectar proximidade e dar feedback visual
+  function checkProximity(distance, isTouch = false) {
+    const proximityThreshold = isTouch ? 220 : 180;
+    
+    if (distance < proximityThreshold && !isMoving) {
+      btn.classList.add('proximity-detected');
+      // Vibração sutil para indicar proximidade em mobile
+      if (isTouch) {
+        vibrate([20]);
+      }
+    } else if (distance > proximityThreshold) {
+      btn.classList.remove('proximity-detected');
     }
   }
 
@@ -491,14 +559,18 @@
     const dy = e.clientY - (b.top + b.height/2);
     const d = Math.hypot(dx,dy);
     
+    // Distância de detecção adaptativa baseada no tamanho da tela
+    const detectionDistance = window.innerWidth < 768 ? 180 : 150;
+    const evadeDistance = window.innerWidth < 768 ? 160 : 130;
+    
     // Se não está se movendo e o mouse se aproxima, inicia o movimento
-    if (!isMoving && d < 150) {
+    if (!isMoving && d < detectionDistance) {
       startMoving();
       attempts++;
     }
     
     // Se já está se movendo e o mouse está próximo, foge
-    if (isMoving && d < 130) {
+    if (isMoving && d < evadeDistance) {
       evade(near);
     }
   });
@@ -516,15 +588,19 @@
     const dy = t.clientY - (b.top + b.height/2);
     const d = Math.hypot(dx,dy);
     
+    // Distância de detecção adaptativa para touch (maior em mobile)
+    const detectionDistance = window.innerWidth < 768 ? 200 : 150;
+    
     // Se não está se movendo e o toque se aproxima, inicia o movimento
-    if (!isMoving && d < 150) {
+    if (!isMoving && d < detectionDistance) {
       startMoving();
       attempts++;
     }
     
-    // Se já está se movendo, foge
+    // Se já está se movendo, foge com throttle otimizado
     const now = Date.now();
-    if(isMoving && now - lastMove > 20){
+    const throttleTime = window.innerWidth < 768 ? 15 : 20; // Mais responsivo em mobile
+    if(isMoving && now - lastMove > throttleTime){
       evade(near);
       lastMove = now;
     }
